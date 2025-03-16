@@ -3,13 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Livraria - Gestão de Livros</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-container { margin-bottom: 20px; }
+        .livro-item { display: flex; align-items: center; gap: 10px; margin: 5px 0; }
+        button { padding: 5px 10px; cursor: pointer; }
+    </style>
 </head>
 <body>
     <h1>Gestão de Livros</h1>
-    <input type="text" id="titulo" placeholder="Título do Livro">
-    <input type="text" id="autor" placeholder="Autor">
-    <button onclick="adicionarLivro()">Adicionar</button>
+    <div class="form-container">
+        <input type="text" id="titulo" placeholder="Título do Livro">
+        <input type="text" id="autor" placeholder="Autor">
+        <input type="number" id="preco" placeholder="Preço" step="0.01">
+        <input type="number" id="estoque" placeholder="Estoque">
+        <button onclick="adicionarLivro()">Adicionar</button>
+    </div>
     <ul id="lista-livros"></ul>
-    <script src="gestao_livro.js"></script>
+    <script src="gestao_livro.html"></script>
 </body>
 </html>
