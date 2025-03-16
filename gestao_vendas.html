@@ -3,14 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Livraria - Gestão de Vendas</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-container { margin-bottom: 20px; }
+        .venda-item { display: flex; align-items: center; gap: 10px; margin: 5px 0; }
+        button { padding: 5px 10px; cursor: pointer; }
+    </style>
 </head>
 <body>
     <h1>Gestão de Vendas</h1>
-    <input type="text" id="livro" placeholder="Título do Livro">
-    <input type="text" id="cliente" placeholder="Nome do Cliente">
-    <input type="date" id="data" placeholder="Data da Venda">
-    <button onclick="adicionarVenda()">Registrar Venda</button>
+    <div class="form-container">
+        <input type="text" id="livro" placeholder="Título do Livro">
+        <input type="text" id="cliente" placeholder="Nome do Cliente">
+        <input type="date" id="data" placeholder="Data da Venda">
+        <button onclick="adicionarVenda()">Registrar Venda</button>
+    </div>
     <ul id="lista-vendas"></ul>
-    <script src="gesta0_vendas.js"></script>
+    <script src="gestao_vendas.html"></script>
 </body>
 </html>
