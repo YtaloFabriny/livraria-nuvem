@@ -3,13 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Livraria - Gestão de Clientes</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-container { margin-bottom: 20px; }
+        .cliente-item { display: flex; align-items: center; gap: 10px; margin: 5px 0; }
+        button { padding: 5px 10px; cursor: pointer; }
+    </style>
 </head>
 <body>
     <h1>Gestão de Clientes</h1>
-    <input type="text" id="nome" placeholder="Nome do Cliente">
-    <input type="email" id="email" placeholder="E-mail">
-    <input type="text" id="telefone" placeholder="Telefone">
-    <button onclick="adicionarCliente()">Adicionar</button>
+    <div class="form-container">
+        <input type="text" id="nome" placeholder="Nome do Cliente">
+        <input type="email" id="email" placeholder="E-mail">
+        <input type="text" id="telefone" placeholder="Telefone">
+        <button onclick="adicionarCliente()">Adicionar</button>
+    </div>
     <ul id="lista-clientes"></ul>
     <script src="gestao_cliente.js"></script>
 </body>
