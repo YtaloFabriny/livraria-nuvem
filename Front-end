@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Livraria - Gestão de Livros</title>
+</head>
+<body>
+    <h1>Gestão de Livros</h1>
+    <input type="text" id="titulo" placeholder="Título do Livro">
+    <input type="text" id="autor" placeholder="Autor">
+    <button onclick="adicionarLivro()">Adicionar</button>
+    <ul id="lista-livros"></ul>
+    <script src="script.js"></script>
+</body>
+</html>
