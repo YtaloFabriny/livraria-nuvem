@@ -1,4 +1,3 @@
-// Substitua pela URL real da sua API do Back4App
 const API_URL = "URL_DO_BACK4APP/clientes";
 const headers = {
     "Content-Type": "application/json",
