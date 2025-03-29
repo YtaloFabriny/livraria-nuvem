@@ -11,9 +11,9 @@ async function adicionarVenda() {
     const cliente = document.getElementById("cliente").value;
     const data = document.getElementById("data").value;
 
-    API_URL = API_URL + "cadastrarVenda";
+    var API_URL_CADASTRAR = API_URL + "cadastrarVenda";
 
-    const response = await fetch(API_URL, {
+    const response = await fetch(API_URL_CADASTRAR, {
         method: "POST",
         headers: headers,
         body: JSON.stringify({ livro, cliente, data })
@@ -29,9 +29,9 @@ async function adicionarVenda() {
 // Função para carregar e listar vendas
 async function carregarVendas() {
 
-    API_URL = API_URL + "listagemVendas";
+    var API_URL_CARREGAR = API_URL + "listagemVendas";
 
-    const response = await fetch(API_URL, {
+    const response = await fetch(API_URL_CARREGAR, {
         method: "POST",
         headers: headers
     });
@@ -56,9 +56,9 @@ function editarVenda(idVenda, livroAtual, clienteAtual, dataAtual) {
     const cliente = prompt("Novo cliente:", clienteAtual) || clienteAtual;
     const data = prompt("Nova data (YYYY-MM-DD):", dataAtual.split("T")[0]) || dataAtual;
 
-    API_URL = API_URL + "editarVenda";
+    var API_URL_EDITAR = API_URL + "editarVenda";
 
-    fetch(API_URL, {
+    fetch(API_URL_EDITAR, {
         method: "POST",
         headers: headers,
         body: JSON.stringify({ idVenda, livro, cliente, data })
@@ -74,10 +74,10 @@ function editarVenda(idVenda, livroAtual, clienteAtual, dataAtual) {
 // Função para excluir venda
 async function excluirVenda(idVenda) {
 
-    API_URL = API_URL + "excluirVenda";
+    var API_URL_EXCLUIR = API_URL + "excluirVenda";
     
     if (confirm("Tem certeza que deseja excluir esta venda?")) {
-        const response = await fetch(API_URL, {
+        const response = await fetch(API_URL_EXCLUIR, {
             method: "POST",
             headers: headers,
             body: JSON.stringify({ idVenda })
