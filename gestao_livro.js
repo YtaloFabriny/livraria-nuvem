@@ -1,8 +1,8 @@
-const API_URL = "URL_DO_BACK4APP/livros";
+var API_URL = "https://parseapi.back4app.com/functions/";
 const headers = {
     "Content-Type": "application/json",
-    "X-Parse-Application-Id": "SEU_APP_ID", // Adicione o ID do app do Back4App
-    "X-Parse-REST-API-Key": "SUA_API_KEY"  // Adicione a chave API do Back4App
+    "X-Parse-Application-Id": "HaE8eV2hF1wziKuFInPlKTb3SKVaS4Jw34gWUsLA",
+    "X-Parse-REST-API-Key": "gCay5OTvHL1XZxszWn2XBY28IujKMpRKgbAobnmn"  // Adicione a chave API do Back4App
 };
 
 // Função para adicionar livro
@@ -12,11 +12,14 @@ async function adicionarLivro() {
     const preco = parseFloat(document.getElementById("preco").value);
     const estoque = parseInt(document.getElementById("estoque").value);
 
+    API_URL = API_URL + "cadastrarLivro";
+
     const response = await fetch(API_URL, {
         method: "POST",
         headers: headers,
         body: JSON.stringify({ titulo, autor, preco, estoque })
     });
+
     if (response.ok) {
         limparFormulario();
         carregarLivros();
@@ -27,11 +30,18 @@ async function adicionarLivro() {
 
 // Função para carregar e listar livros
 async function carregarLivros() {
-    const response = await fetch(API_URL, { headers: headers });
+
+    API_URL = API_URL + "listagemLivros";
+
+    const response = await fetch(API_URL, {
+        method: "POST",
+        headers: headers
+    });
     const livros = await response.json();
+    console.log(livros)
     const lista = document.getElementById("lista-livros");
     lista.innerHTML = ""; // Limpa a lista antes de recarregar
-    livros.results.forEach(livro => {
+    livros.result.forEach(livro => {
         lista.innerHTML += `
             <li class="livro-item" data-id="${livro.objectId}">
                 ${livro.titulo} - ${livro.autor} - R$${livro.preco.toFixed(2)} - Estoque: ${livro.estoque}
@@ -42,16 +52,18 @@ async function carregarLivros() {
 }
 
 // Função para editar livro
-function editarLivro(id, tituloAtual, autorAtual, precoAtual, estoqueAtual) {
+function editarLivro(idLivro, tituloAtual, autorAtual, precoAtual, estoqueAtual) {
     const titulo = prompt("Novo título:", tituloAtual) || tituloAtual;
     const autor = prompt("Novo autor:", autorAtual) || autorAtual;
     const preco = parseFloat(prompt("Novo preço:", precoAtual)) || precoAtual;
     const estoque = parseInt(prompt("Novo estoque:", estoqueAtual)) || estoqueAtual;
 
-    fetch(`${API_URL}/${id}`, {
-        method: "PUT",
+    API_URL = API_URL + "editarLivro";
+
+    fetch(API_URL, {
+        method: "POST",
         headers: headers,
-        body: JSON.stringify({ titulo, autor, preco, estoque })
+        body: JSON.stringify({ idLivro, titulo, autor, preco, estoque })
     }).then(response => {
         if (response.ok) {
             carregarLivros();
@@ -62,11 +74,15 @@ function editarLivro(id, tituloAtual, autorAtual, precoAtual, estoqueAtual) {
 }
 
 // Função para excluir livro
-async function excluirLivro(id) {
+async function excluirLivro(idLivro) {
+
+    API_URL = API_URL + "excluirLivro";
+
     if (confirm("Tem certeza que deseja excluir este livro?")) {
-        const response = await fetch(`${API_URL}/${id}`, {
-            method: "DELETE",
-            headers: headers
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({ idLivro })
         });
         if (response.ok) {
             carregarLivros();
@@ -85,4 +101,4 @@ function limparFormulario() {
 }
 
 // Carrega os livros ao iniciar a página
-carregarLivros();
+// carregarLivros();
