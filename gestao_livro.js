@@ -12,9 +12,9 @@ async function adicionarLivro() {
     const preco = parseFloat(document.getElementById("preco").value);
     const estoque = parseInt(document.getElementById("estoque").value);
 
-    API_URL = API_URL + "cadastrarLivro";
+    var API_URL_CADASTRAR = API_URL + "cadastrarLivro";
 
-    const response = await fetch(API_URL, {
+    const response = await fetch(API_URL_CADASTRAR, {
         method: "POST",
         headers: headers,
         body: JSON.stringify({ titulo, autor, preco, estoque })
@@ -31,9 +31,9 @@ async function adicionarLivro() {
 // Função para carregar e listar livros
 async function carregarLivros() {
 
-    API_URL = API_URL + "listagemLivros";
+    var API_URL_CARREGAR = API_URL + "listagemLivros";
 
-    const response = await fetch(API_URL, {
+    const response = await fetch(API_URL_CARREGAR, {
         method: "POST",
         headers: headers
     });
@@ -58,9 +58,9 @@ function editarLivro(idLivro, tituloAtual, autorAtual, precoAtual, estoqueAtual)
     const preco = parseFloat(prompt("Novo preço:", precoAtual)) || precoAtual;
     const estoque = parseInt(prompt("Novo estoque:", estoqueAtual)) || estoqueAtual;
 
-    API_URL = API_URL + "editarLivro";
+    var API_URL_EDITAR = API_URL + "editarLivro";
 
-    fetch(API_URL, {
+    fetch(API_URL_EDITAR, {
         method: "POST",
         headers: headers,
         body: JSON.stringify({ idLivro, titulo, autor, preco, estoque })
@@ -76,10 +76,10 @@ function editarLivro(idLivro, tituloAtual, autorAtual, precoAtual, estoqueAtual)
 // Função para excluir livro
 async function excluirLivro(idLivro) {
 
-    API_URL = API_URL + "excluirLivro";
+    var API_URL_EXCLUIR = API_URL + "excluirLivro";
 
     if (confirm("Tem certeza que deseja excluir este livro?")) {
-        const response = await fetch(API_URL, {
+        const response = await fetch(API_URL_EXCLUIR, {
             method: "POST",
             headers: headers,
             body: JSON.stringify({ idLivro })
