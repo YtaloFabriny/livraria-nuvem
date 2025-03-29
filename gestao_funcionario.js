@@ -11,9 +11,9 @@ async function adicionarFuncionario() {
     const cargo = document.getElementById("cargo").value;
     const turno = document.getElementById("turno").value;
 
-    API_URL = API_URL + "cadastrarFuncionario";
+    var API_URL_CADASTRAR = API_URL + "cadastrarFuncionario";
 
-    const response = await fetch(API_URL, {
+    const response = await fetch(API_URL_CADASTRAR, {
         method: "POST",
         headers: headers,
         body: JSON.stringify({ nome, cargo, turno })
@@ -29,9 +29,9 @@ async function adicionarFuncionario() {
 // Função para carregar e listar funcionários
 async function carregarFuncionarios() {
 
-    API_URL = API_URL + "listagemFuncionarios";
+    var API_URL_CARREGAR = API_URL + "listagemFuncionarios";
 
-    const response = await fetch(API_URL, {
+    const response = await fetch(API_URL_CARREGAR, {
         method: "POST",
         headers: headers
     });
@@ -55,9 +55,9 @@ function editarFuncionario(idFuncionario, nomeAtual, cargoAtual, turnoAtual) {
     const cargo = prompt("Novo cargo:", cargoAtual) || cargoAtual;
     const turno = prompt("Novo turno:", turnoAtual) || turnoAtual;
 
-    API_URL = API_URL + "editarFuncionario";
+    var API_URL_EDITAR = API_URL + "editarFuncionario";
 
-    fetch(API_URL, {
+    fetch(API_URL_EDITAR, {
         method: "POST",
         headers: headers,
         body: JSON.stringify({ idFuncionario, nome, cargo, turno })
@@ -74,9 +74,9 @@ function editarFuncionario(idFuncionario, nomeAtual, cargoAtual, turnoAtual) {
 async function excluirFuncionario(idFuncionario) {
     if (confirm("Tem certeza que deseja excluir este funcionário?")) {
 
-        API_URL = API_URL + "excluirFuncionario";
+        var API_URL_EXCLUIR = API_URL + "excluirFuncionario";
 
-        const response = await fetch(API_URL, {
+        const response = await fetch(API_URL_EXCLUIR, {
             method: "POST",
             headers: headers, 
             body: JSON.stringify({ idFuncionario })
