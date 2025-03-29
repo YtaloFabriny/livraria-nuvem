@@ -1,8 +1,8 @@
-const API_URL = "URL_DO_BACK4APP/clientes";
+var API_URL = "https://parseapi.back4app.com/functions/";
 const headers = {
     "Content-Type": "application/json",
-    "X-Parse-Application-Id": "SEU_APP_ID", // Adicione o ID do app do Back4App
-    "X-Parse-REST-API-Key": "SUA_API_KEY"  // Adicione a chave API do Back4App
+    "X-Parse-Application-Id": "HaE8eV2hF1wziKuFInPlKTb3SKVaS4Jw34gWUsLA",
+    "X-Parse-REST-API-Key": "gCay5OTvHL1XZxszWn2XBY28IujKMpRKgbAobnmn"  // Adicione a chave API do Back4App
 };
 
 // Função para adicionar cliente
@@ -11,6 +11,9 @@ async function adicionarCliente() {
     const email = document.getElementById("email").value;
     const telefone = document.getElementById("telefone").value;
 
+    API_URL = API_URL + "cadastrarCliente";
+
+    console.log(JSON.stringify({ nome, email, telefone }))
     const response = await fetch(API_URL, {
         method: "POST",
         headers: headers,
@@ -26,11 +29,17 @@ async function adicionarCliente() {
 
 // Função para carregar e listar clientes
 async function carregarClientes() {
-    const response = await fetch(API_URL, { headers: headers });
+
+    API_URL = API_URL + "listagemClientes";
+
+    const response = await fetch(API_URL, {
+        method: "POST",
+        headers: headers
+    });
     const clientes = await response.json();
     const lista = document.getElementById("lista-clientes");
     lista.innerHTML = ""; // Limpa a lista antes de recarregar
-    clientes.results.forEach(cliente => {
+    clientes.result.forEach(cliente => {
         lista.innerHTML += `
             <li class="cliente-item" data-id="${cliente.objectId}">
                 ${cliente.nome} - ${cliente.email} - ${cliente.telefone}
@@ -41,15 +50,17 @@ async function carregarClientes() {
 }
 
 // Função para editar cliente
-function editarCliente(id, nomeAtual, emailAtual, telefoneAtual) {
+function editarCliente(idCliente, nomeAtual, emailAtual, telefoneAtual) {
     const nome = prompt("Novo nome:", nomeAtual) || nomeAtual;
     const email = prompt("Novo e-mail:", emailAtual) || emailAtual;
     const telefone = prompt("Novo telefone:", telefoneAtual) || telefoneAtual;
 
-    fetch(`${API_URL}/${id}`, {
-        method: "PUT",
+    API_URL = API_URL + "editarCliente";
+
+    fetch(API_URL, {
+        method: "POST",
         headers: headers,
-        body: JSON.stringify({ nome, email, telefone })
+        body: JSON.stringify({ idCliente, nome, email, telefone })
     }).then(response => {
         if (response.ok) {
             carregarClientes();
@@ -60,11 +71,15 @@ function editarCliente(id, nomeAtual, emailAtual, telefoneAtual) {
 }
 
 // Função para excluir cliente
-async function excluirCliente(id) {
+async function excluirCliente(idCliente) {
     if (confirm("Tem certeza que deseja excluir este cliente?")) {
-        const response = await fetch(`${API_URL}/${id}`, {
-            method: "DELETE",
-            headers: headers
+
+        API_URL = API_URL + "excluirCliente";
+
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({ idCliente })
         });
         if (response.ok) {
             carregarClientes();
