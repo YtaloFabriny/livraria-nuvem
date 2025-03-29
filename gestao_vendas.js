@@ -1,8 +1,8 @@
-const API_URL = "URL_DO_BACK4APP/vendas";
+var API_URL = "https://parseapi.back4app.com/functions/";
 const headers = {
     "Content-Type": "application/json",
-    "X-Parse-Application-Id": "SEU_APP_ID", // Adicione o ID do app do Back4App
-    "X-Parse-REST-API-Key": "SUA_API_KEY"  // Adicione a chave API do Back4App
+    "X-Parse-Application-Id": "HaE8eV2hF1wziKuFInPlKTb3SKVaS4Jw34gWUsLA",
+    "X-Parse-REST-API-Key": "gCay5OTvHL1XZxszWn2XBY28IujKMpRKgbAobnmn"  // Adicione a chave API do Back4App
 };
 
 // Função para adicionar venda
@@ -10,6 +10,8 @@ async function adicionarVenda() {
     const livro = document.getElementById("livro").value;
     const cliente = document.getElementById("cliente").value;
     const data = document.getElementById("data").value;
+
+    API_URL = API_URL + "cadastrarVenda";
 
     const response = await fetch(API_URL, {
         method: "POST",
@@ -26,31 +28,40 @@ async function adicionarVenda() {
 
 // Função para carregar e listar vendas
 async function carregarVendas() {
-    const response = await fetch(API_URL, { headers: headers });
+
+    API_URL = API_URL + "listagemVendas";
+
+    const response = await fetch(API_URL, {
+        method: "POST",
+        headers: headers
+    });
     const vendas = await response.json();
+    console.log(vendas)
     const lista = document.getElementById("lista-vendas");
     lista.innerHTML = ""; // Limpa a lista antes de recarregar
-    vendas.results.forEach(venda => {
-        const dataFormatada = new Date(venda.data.iso).toLocaleDateString("pt-BR");
+    vendas.result.forEach(venda => {
+        const dataFormatada = new Date(venda.dataVenda.iso).toLocaleDateString("pt-BR");
         lista.innerHTML += `
             <li class="venda-item" data-id="${venda.objectId}">
                 ${venda.livro} - ${venda.cliente} - ${dataFormatada}
-                <button onclick="editarVenda('${venda.objectId}', '${venda.livro}', '${venda.cliente}', '${venda.data.iso}')">Editar</button>
+                <button onclick="editarVenda('${venda.objectId}', '${venda.livro}', '${venda.cliente}', '${venda.dataVenda.iso}')">Editar</button>
                 <button onclick="excluirVenda('${venda.objectId}')">Excluir</button>
             </li>`;
     });
 }
 
 // Função para editar venda
-function editarVenda(id, livroAtual, clienteAtual, dataAtual) {
+function editarVenda(idVenda, livroAtual, clienteAtual, dataAtual) {
     const livro = prompt("Novo título do livro:", livroAtual) || livroAtual;
     const cliente = prompt("Novo cliente:", clienteAtual) || clienteAtual;
     const data = prompt("Nova data (YYYY-MM-DD):", dataAtual.split("T")[0]) || dataAtual;
 
-    fetch(`${API_URL}/${id}`, {
-        method: "PUT",
+    API_URL = API_URL + "editarVenda";
+
+    fetch(API_URL, {
+        method: "POST",
         headers: headers,
-        body: JSON.stringify({ livro, cliente, data })
+        body: JSON.stringify({ idVenda, livro, cliente, data })
     }).then(response => {
         if (response.ok) {
             carregarVendas();
@@ -61,11 +72,16 @@ function editarVenda(id, livroAtual, clienteAtual, dataAtual) {
 }
 
 // Função para excluir venda
-async function excluirVenda(id) {
+async function excluirVenda(idVenda) {
+
+    API_URL = API_URL + "excluirVenda";
+    
     if (confirm("Tem certeza que deseja excluir esta venda?")) {
-        const response = await fetch(`${API_URL}/${id}`, {
-            method: "DELETE",
-            headers: headers
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({ idVenda })
+       
         });
         if (response.ok) {
             carregarVendas();
