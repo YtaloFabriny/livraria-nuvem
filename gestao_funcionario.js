@@ -1,8 +1,8 @@
-const API_URL = "URL_DO_BACK4APP/funcionarios";
+var API_URL = "https://parseapi.back4app.com/functions/";
 const headers = {
     "Content-Type": "application/json",
-    "X-Parse-Application-Id": "SEU_APP_ID", // Adicione o ID do app do Back4App
-    "X-Parse-REST-API-Key": "SUA_API_KEY"  // Adicione a chave API do Back4App
+    "X-Parse-Application-Id": "HaE8eV2hF1wziKuFInPlKTb3SKVaS4Jw34gWUsLA",
+    "X-Parse-REST-API-Key": "gCay5OTvHL1XZxszWn2XBY28IujKMpRKgbAobnmn"  // Adicione a chave API do Back4App
 };
 
 // Função para adicionar funcionário
@@ -10,6 +10,8 @@ async function adicionarFuncionario() {
     const nome = document.getElementById("nome").value;
     const cargo = document.getElementById("cargo").value;
     const turno = document.getElementById("turno").value;
+
+    API_URL = API_URL + "cadastrarFuncionario";
 
     const response = await fetch(API_URL, {
         method: "POST",
@@ -26,11 +28,18 @@ async function adicionarFuncionario() {
 
 // Função para carregar e listar funcionários
 async function carregarFuncionarios() {
-    const response = await fetch(API_URL, { headers: headers });
+
+    API_URL = API_URL + "listagemFuncionarios";
+
+    const response = await fetch(API_URL, {
+        method: "POST",
+        headers: headers
+    });
     const funcionarios = await response.json();
+    console.log(funcionarios)
     const lista = document.getElementById("lista-funcionarios");
     lista.innerHTML = ""; // Limpa a lista antes de recarregar
-    funcionarios.results.forEach(funcionario => {
+    funcionarios.result.forEach(funcionario => {
         lista.innerHTML += `
             <li class="funcionario-item" data-id="${funcionario.objectId}">
                 ${funcionario.nome} - ${funcionario.cargo} - ${funcionario.turno}
@@ -41,15 +50,17 @@ async function carregarFuncionarios() {
 }
 
 // Função para editar funcionário
-function editarFuncionario(id, nomeAtual, cargoAtual, turnoAtual) {
+function editarFuncionario(idFuncionario, nomeAtual, cargoAtual, turnoAtual) {
     const nome = prompt("Novo nome:", nomeAtual) || nomeAtual;
     const cargo = prompt("Novo cargo:", cargoAtual) || cargoAtual;
     const turno = prompt("Novo turno:", turnoAtual) || turnoAtual;
 
-    fetch(`${API_URL}/${id}`, {
-        method: "PUT",
+    API_URL = API_URL + "editarFuncionario";
+
+    fetch(API_URL, {
+        method: "POST",
         headers: headers,
-        body: JSON.stringify({ nome, cargo, turno })
+        body: JSON.stringify({ idFuncionario, nome, cargo, turno })
     }).then(response => {
         if (response.ok) {
             carregarFuncionarios();
@@ -60,11 +71,16 @@ function editarFuncionario(id, nomeAtual, cargoAtual, turnoAtual) {
 }
 
 // Função para excluir funcionário
-async function excluirFuncionario(id) {
+async function excluirFuncionario(idFuncionario) {
     if (confirm("Tem certeza que deseja excluir este funcionário?")) {
-        const response = await fetch(`${API_URL}/${id}`, {
-            method: "DELETE",
-            headers: headers
+
+        API_URL = API_URL + "excluirFuncionario";
+
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: headers, 
+            body: JSON.stringify({ idFuncionario })
+
         });
         if (response.ok) {
             carregarFuncionarios();
