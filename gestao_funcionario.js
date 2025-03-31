@@ -38,7 +38,7 @@ async function carregarFuncionarios() {
     const funcionarios = await response.json();
     const lista = document.getElementById("lista-funcionarios");
     lista.innerHTML = ""; // Limpa a lista antes de recarregar
-    funcionarios.results.forEach(funcionario => {
+    funcionarios.result.forEach(funcionario => {
         lista.innerHTML += `
             <li class="funcionario-item" data-id="${funcionario.objectId}">
                 ${funcionario.nome} - ${funcionario.cargo} - ${funcionario.turno}
