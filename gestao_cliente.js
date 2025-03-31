@@ -38,7 +38,7 @@ async function carregarClientes() {
     const clientes = await response.json();
     const lista = document.getElementById("lista-clientes");
     lista.innerHTML = ""; // Limpa a lista antes de recarregar
-    clientes.results.forEach(cliente => {
+    clientes.result.forEach(cliente => {
         lista.innerHTML += `
             <li class="cliente-item" data-id="${cliente.objectId}">
                 ${cliente.nome} - ${cliente.email} - ${cliente.telefone}
