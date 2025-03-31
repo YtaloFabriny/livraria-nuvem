@@ -11,10 +11,9 @@ async function adicionarCliente() {
     const email = document.getElementById("email").value;
     const telefone = document.getElementById("telefone").value;
 
-    var API_URL_CADASTRAR = API_URL + "cadastrarCliente";
+    API_URL = API_URL + "cadastrarCliente";
 
-    console.log(JSON.stringify({ nome, email, telefone }))
-    const response = await fetch(API_URL_CADASTRAR, {
+    const response = await fetch(API_URL, {
         method: "POST",
         headers: headers,
         body: JSON.stringify({ nome, email, telefone })
@@ -30,16 +29,16 @@ async function adicionarCliente() {
 // Função para carregar e listar clientes
 async function carregarClientes() {
 
-    var API_URL_CARREGAR = API_URL + "listagemClientes";
+    API_URL = API_URL + "listagemClientes";
 
-    const response = await fetch(API_URL_CARREGAR, {
+    const response = await fetch(API_URL, {
         method: "POST",
         headers: headers
     });
     const clientes = await response.json();
     const lista = document.getElementById("lista-clientes");
     lista.innerHTML = ""; // Limpa a lista antes de recarregar
-    clientes.result.forEach(cliente => {
+    clientes.results.forEach(cliente => {
         lista.innerHTML += `
             <li class="cliente-item" data-id="${cliente.objectId}">
                 ${cliente.nome} - ${cliente.email} - ${cliente.telefone}
@@ -55,9 +54,9 @@ function editarCliente(idCliente, nomeAtual, emailAtual, telefoneAtual) {
     const email = prompt("Novo e-mail:", emailAtual) || emailAtual;
     const telefone = prompt("Novo telefone:", telefoneAtual) || telefoneAtual;
 
-    var API_URL_EDITAR = API_URL + "editarCliente";
+    API_URL = API_URL + "editarCliente";
 
-    fetch(API_URL_EDITAR, {
+    fetch(API_URL, {
         method: "POST",
         headers: headers,
         body: JSON.stringify({ idCliente, nome, email, telefone })
@@ -74,9 +73,9 @@ function editarCliente(idCliente, nomeAtual, emailAtual, telefoneAtual) {
 async function excluirCliente(idCliente) {
     if (confirm("Tem certeza que deseja excluir este cliente?")) {
 
-        var API_URL_EXCLUIR = API_URL + "excluirCliente";
+        API_URL = API_URL + "excluirCliente";
 
-        const response = await fetch(API_URL_EXCLUIR, {
+        const response = await fetch(API_URL, {
             method: "POST",
             headers: headers,
             body: JSON.stringify({ idCliente })
