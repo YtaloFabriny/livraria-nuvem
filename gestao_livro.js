@@ -40,7 +40,7 @@ async function carregarLivros() {
     const livros = await response.json();
     const lista = document.getElementById("lista-livros");
     lista.innerHTML = ""; // Limpa a lista antes de recarregar
-    livros.results.forEach(livro => {
+    livros.result.forEach(livro => {
         lista.innerHTML += `
             <li class="livro-item" data-id="${livro.objectId}">
                 ${livro.titulo} - ${livro.autor} - R$${livro.preco.toFixed(2)} - Estoque: ${livro.estoque}
