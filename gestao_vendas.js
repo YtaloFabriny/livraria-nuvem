@@ -38,7 +38,7 @@ async function carregarVendas() {
     const vendas = await response.json();
     const lista = document.getElementById("lista-vendas");
     lista.innerHTML = ""; // Limpa a lista antes de recarregar
-    vendas.results.forEach(venda => {
+    vendas.result.forEach(venda => {
         const dataFormatada = new Date(venda.data.iso).toLocaleDateString("pt-BR");
         lista.innerHTML += `
             <li class="venda-item" data-id="${venda.objectId}">
